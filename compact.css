@@ -162,6 +162,16 @@ html.cx.cx {
   :where(html.cx) .srow { padding-block: 7px; }   /* touch rows stay easy to hit */
   :where(html.cx) .row.mine > .b { max-width: 90%; }
 }
+/* phone: settings tabs are one row that scrolls sideways inside itself, the page does not */
+@media (max-width: 760px) {
+  :where(html.cx) .head .seg.tabs { flex: 1 1 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+  :where(html.cx) .head .seg.tabs button { flex: none; }
+}
+@media (max-width: 380px) {
+  :where(html.cx) .head .btn.back, :where(html.cx) .head > .btn:has(> .icon):not(.side-toggle) { width: 36px; }
+  :where(html.cx) .head .seg button { padding: 0 5px; }
+  :where(html.cx) .head .menu-btn { padding-inline: 4px; }
+}
 /* phone: the state in the header is a dot in the same colours as the list (the word stays for screen readers) */
 @media (max-width: 520px) {
   :where(html.cx) .head > .pill { flex: none; width: 10px; height: 10px; padding: 0; font-size: 0; background: var(--st-rest); }
