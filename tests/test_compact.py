@@ -80,8 +80,8 @@ class Compact(test_web_e2e.PageInChrome):
         self.assertEqual(r.returncode, 0, r.stderr[:1500])
         return json.loads(r.stdout)
 
-    def open(self, route, width, *steps):
-        got = self.page({"go": f"http://127.0.0.1:{self.port}/#/{route}", "width": width}, {"until": READY, "ms": 15000},
+    def open(self, route, width, *steps, dark=False):
+        got = self.page({"go": f"http://127.0.0.1:{self.port}/#/{route}", "width": width, "dark": dark}, {"until": READY, "ms": 15000},
                         {"sleep": 300}, *steps)
         self.assertTrue(got[1]["until"], f"{route} at {width}: the plugin did not load")
         return [g["eval"] for g in got if "eval" in g]
@@ -97,6 +97,17 @@ class Compact(test_web_e2e.PageInChrome):
                     self.assertEqual(small, [], "text smaller than 13 px")
                     self.assertEqual(contrast, [], "secondary text below 4.5:1")
                     self.assertEqual(edges, 0, "a coloured edge marks a row or a card")
+
+    def test_dark_theme_reads_too(self):
+        shots = os.environ.get("COMPACT_SHOTS")   # a folder: keep dark screenshots for a look
+        for route, width in (("s/hub", 1440), ("s/billing", 390), ("sessions", 390), ("schedule", 820)):
+            with self.subTest(route=route, width=width):
+                keep = [{"shot": os.path.join(shots, f"dark-{route.replace('/', '-')}-{width}.png"), "width": width}] if shots else []
+                dark, small, contrast = self.open(route, width, {"eval": "matchMedia('(prefers-color-scheme: dark)').matches"},
+                                                  {"eval": SMALL}, {"eval": CONTRAST}, *keep, dark=True)
+                self.assertTrue(dark)
+                self.assertEqual(small, [])
+                self.assertEqual(contrast, [])
 
     def test_the_page_is_denser_than_stock(self):
         rows = "[...document.querySelectorAll('aside .srow:not(.nav)')].map((r) => r.getBoundingClientRect().height).reduce((a, b) => a + b, 0)"

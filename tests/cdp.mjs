@@ -26,6 +26,7 @@ for (const s of JSON.parse(stepsJson)) {
   } else if (s.go) {
     await send("Page.enable");
     await send("Page.addScriptToEvaluateOnNewDocument", { source: "try { localStorage.setItem('hub.feed', 'full') } catch {}" });
+    if (s.dark) await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: "dark" }] });
     if (s.width) await send("Emulation.setDeviceMetricsOverride", { width: s.width, height: s.height || 900, deviceScaleFactor: 1, mobile: s.width < 600 });
     await send("Page.navigate", { url: s.go });
     out.push({ go: s.go });
