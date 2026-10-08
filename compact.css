@@ -83,6 +83,7 @@ html.cx.cx {
 :where(html.cx) .card { padding: var(--space-3); gap: 6px; border-radius: var(--radius); }
 :where(html.cx) .card h3 { font-size: var(--text-md); }
 :where(html.cx) .opt:not(.ask-card.quick .opt) { padding: 5px var(--space-3); }
+:where(html.cx) .ask-card.quick.quick .opt { padding-block: 5px; }   /* quick-answers: its 44 px touch height stays */
 :where(html.cx) .opt small { font-size: var(--text-sm); color: var(--muted-foreground); }
 :where(html.cx) .card .code { padding: 6px var(--space-2); }
 
@@ -162,10 +163,13 @@ html.cx.cx {
   :where(html.cx) .srow { padding-block: 7px; }   /* touch rows stay easy to hit */
   :where(html.cx) .row.mine > .b { max-width: 90%; }
 }
-/* phone: settings tabs are one row that scrolls sideways inside itself, the page does not */
+/* phone: settings tabs are an even grid under the title, every tab visible and the same size */
 @media (max-width: 760px) {
-  :where(html.cx) .head .seg.tabs { flex: 1 1 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
-  :where(html.cx) .head .seg.tabs button { flex: none; }
+  :where(html.cx) .head .seg.tabs { flex: 1 1 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px;
+    padding: 1px; border: 0; border-radius: 0; overflow: visible; }
+  :where(html.cx) .head .seg.tabs button { padding: 0 2px; border: 0; box-shadow: 0 0 0 1px var(--input); overflow: hidden;
+    text-overflow: ellipsis; white-space: nowrap; }
+  :where(html.cx) .strip-row { gap: 2px var(--space-2); }
 }
 @media (max-width: 380px) {
   :where(html.cx) .head .btn.back, :where(html.cx) .head > .btn:has(> .icon):not(.side-toggle) { width: 36px; }

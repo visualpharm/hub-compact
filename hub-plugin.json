@@ -3,7 +3,7 @@
   "icon": "icon.svg",
   "description": "Compact redesign of the whole hub page: tighter headers, lists, cards and feed on phone, tablet and desktop, with no text below 13 px and darker secondary text",
   "why": "More sessions and more of the conversation fit on one screen without shrinking the type",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "hub": "^1.1",
   "web": "main.js"
 }
