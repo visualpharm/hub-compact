@@ -1,0 +1,4 @@
+{ "pack": "m_outlined", "size": 24, "color": "currentColor",
+  "icons": { "icon": { "id": "98025", "commonName": "collapse" },
+             "agent": { "id": "102886", "commonName": "bot" },
+             "menu": { "id": "82749", "commonName": "menu" } } }

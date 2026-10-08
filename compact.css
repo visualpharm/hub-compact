@@ -1,0 +1,171 @@
+/* Compact — a redesign layer over the hub page. Density comes from spacing and structure; type never goes below 13 px,
+   and secondary text is dark enough to read. Every rule is scoped under html.cx (set by main.js). */
+
+/* ---- tokens: the hub and its plugins read these, so the whole page tightens together ---- */
+html.cx.cx {
+  --cx: calc(var(--ui-scale, 1.0667) / 1.0667);   /* the owner's "Text size" setting still scales everything */
+  --text-xs: calc(13px * var(--cx)); --text-sm: calc(14px * var(--cx)); --text-base: calc(15px * var(--cx));
+  --text-md: calc(15px * var(--cx)); --text-lg: calc(17px * var(--cx)); --text-xl: calc(20px * var(--cx));
+  --leading: 1.5;
+  --space-3: 10px; --space-4: 14px; --space-5: 18px; --space-6: 18px; --space-7: 24px; --space-8: 24px; --space-9: 36px;
+  --radius-xl: 12px;
+  --muted-foreground: light-dark(#4b4b54, #b9b9c3);
+}
+:where(html.cx) body { text-wrap-style: pretty; }
+:where(html.cx) h1, :where(html.cx) h2, :where(html.cx) h3, :where(html.cx) h4 { text-wrap-style: balance; }
+
+/* ---- shell ---- */
+:where(html.cx) .app { --gap: 6px; }
+:where(html.cx) .app:not([style*="--left-w"]) { --left-w: 264px; }   /* a width the owner dragged stays as dragged */
+
+/* ---- sidebar ---- */
+:where(html.cx) .brand { min-height: 44px; padding: 2px var(--space-2) 2px var(--space-3); }
+:where(html.cx) .account { width: 30px; height: 30px; }
+:where(html.cx) .account .icon { width: 18px; height: 18px; }
+:where(html.cx) .wpill { height: 24px; font-size: var(--text-xs); }
+:where(html.cx) .wpill.alarm { box-shadow: none; }
+:where(html.cx) .search { margin: 0 var(--space-2) var(--space-1); }
+:where(html.cx) .search input { padding-block: 5px; }
+:where(html.cx) .list { padding: 0 var(--space-1) var(--space-2); }
+:where(html.cx) .srow { padding: 4px var(--space-2); gap: 6px; }
+:where(html.cx) .srow.nav { margin: 0 var(--space-1); width: calc(100% - 2 * var(--space-1)); }
+:where(html.cx) .srow .nm { line-height: 1.3; }
+:where(html.cx) .srow .lb { line-height: 1.35; }
+:where(html.cx) .srow.rest:not([aria-current="true"]) { opacity: 1; }   /* resting sessions stay readable */
+:where(html.cx) .sgroup-h { margin: 6px 0 0; padding-block: 2px; }
+:where(html.cx) .gcount { height: 18px; min-width: 18px; padding: 0 6px; }
+/* "waiting for you" is said by the red tag and the red mark, not by a coloured edge on the row */
+:where(html.cx) .srow.blocked { box-shadow: none; }
+:where(html.cx) .srow.blocked[aria-current="true"] { box-shadow: var(--shadow-plate); }
+:where(html.cx) .tag { padding: 0 7px; line-height: 1.5; }
+/* agent marker: one icon from the page's icon family instead of an emoji */
+:where(html.cx) .srow .avatar:not(.kit-img) { display: inline-block; width: 16px; height: 16px; margin-right: 2px; font-size: 0; overflow: hidden;
+  vertical-align: -2px; background: currentColor; -webkit-mask: var(--cx-agent) center / contain no-repeat;
+  mask: var(--cx-agent) center / contain no-repeat; }
+:where(html.cx) .aside-foot { padding: var(--space-1) var(--space-2) var(--space-2); }
+:where(html.cx) .aside-foot .counts { gap: 0 var(--space-3); }
+
+/* ---- window header ---- */
+:where(html.cx) .head { min-height: 44px; padding: 6px var(--space-4); gap: var(--space-2); }
+:where(html.cx) .pill { padding: 0 7px; line-height: 1.5; }
+:where(html.cx) .chip { line-height: 1.5; }
+:where(html.cx) .seg button { min-height: 28px; padding: 0 var(--space-3); }
+:where(html.cx) .btn { min-height: 28px; }
+:where(html.cx) .btn.small { min-height: 26px; }
+:where(html.cx) .menu-item { padding: 5px var(--space-3); }
+
+/* ---- feed ---- */
+:where(html.cx) .feed { padding: var(--space-4) var(--space-4) var(--space-2); }
+:where(html.cx) .feed-inner { gap: var(--space-2); }
+:where(html.cx) .row { gap: 6px; }
+:where(html.cx) .row.turn { margin-top: var(--space-1); }
+:where(html.cx) .row.mine > .b { padding: 5px var(--space-3); max-width: 82%; }
+/* who speaks is said by the name in its colour; no coloured bar down the side of a message */
+:where(html.cx) .row.from > .b { border-left: 0; padding-left: 0; }
+:where(html.cx) .byline { font-size: var(--text-sm); }
+:where(html.cx) .byline .av:not(.kit-img) { display: none; }
+:where(html.cx) .reply-box { border: 1px solid var(--border); border-radius: var(--radius); padding: 6px var(--space-3); }
+:where(html.cx) .chat-head { padding: 3px var(--space-3); border-style: solid; border-radius: var(--radius); gap: var(--space-2); }
+:where(html.cx) .chat-body { gap: var(--space-2); margin-top: var(--space-1); }
+:where(html.cx) .steps { gap: var(--space-1); }
+:where(html.cx) .steps-head { padding: 0; }
+:where(html.cx) .steps-body { gap: var(--space-2); }
+:where(html.cx) .md p, :where(html.cx) .md ul, :where(html.cx) .md ol, :where(html.cx) .md pre, :where(html.cx) .md blockquote, :where(html.cx) .md .tbl { margin-bottom: 0.55lh; }
+:where(html.cx) .md h1, :where(html.cx) .md h2, :where(html.cx) .md h3, :where(html.cx) .md h4 { margin: 0.9lh 0 0.3lh; }
+:where(html.cx) .md th, :where(html.cx) .md td { padding: 3px var(--space-3); }
+:where(html.cx) .tool pre, :where(html.cx) .md pre { padding: 6px var(--space-3); }
+:where(html.cx) .feed .card { margin: var(--space-2) 0 var(--space-1); }
+:where(html.cx) .summary { padding: var(--space-2) var(--space-3); }
+:where(html.cx) .row.older { margin: 0 0 var(--space-2); }
+:where(html.cx) .empty { padding: var(--space-5) 0; }
+
+/* ---- cards: question and permission ---- */
+:where(html.cx) .card { padding: var(--space-3); gap: 6px; border-radius: var(--radius); }
+:where(html.cx) .card h3 { font-size: var(--text-md); }
+:where(html.cx) .opt:not(.ask-card.quick .opt) { padding: 5px var(--space-3); }
+:where(html.cx) .opt small { font-size: var(--text-sm); color: var(--muted-foreground); }
+:where(html.cx) .card .code { padding: 6px var(--space-2); }
+
+/* ---- dock: queue strip, composer, status ---- */
+:where(html.cx) .dock { padding: 0 var(--space-4) var(--space-2); }
+:where(html.cx) .dock-inner { gap: 6px; }
+:where(html.cx) .strip-host { margin-bottom: 0; }
+:where(html.cx) .strip { border-radius: var(--radius); }
+:where(html.cx) .strip-row { padding: 5px var(--space-3); gap: var(--space-2); }
+:where(html.cx) .strip-row[data-k="wait"] { box-shadow: none; }
+:where(html.cx) .strip-row .t { color: var(--foreground); }
+:where(html.cx) .composer { padding: var(--space-2) var(--space-2) 6px var(--space-3); gap: var(--space-1); border-radius: var(--radius-xl); }
+:where(html.cx) .composer > .attach { top: 5px; right: 5px; }
+:where(html.cx) .kbd-hint { top: 21px; }
+:where(html.cx) .btn.round { width: 32px; height: 32px; min-height: 32px; }
+:where(html.cx) .btn.round.send { width: 34px; height: 34px; border-radius: var(--radius); }
+:where(html.cx) .btn.round.mic { width: 44px; height: 44px; margin: -6px -6px -6px 0; }
+
+/* ---- dialogs ---- */
+:where(html.cx) dialog { padding: var(--space-5); }
+:where(html.cx) dialog form { gap: var(--space-3); }
+
+/* ---- settings, plugins, modules ---- */
+:where(html.cx) .ext-view { padding: var(--space-3) var(--space-4); }
+:where(html.cx) .module-card { padding: var(--space-2) var(--space-3); border-radius: var(--radius); }
+:where(html.cx) .modules, :where(html.cx) .plugins { gap: var(--space-2); }
+:where(html.cx) .plugin-row { padding: var(--space-2) var(--space-3); grid-template-columns: 32px 1fr auto; }
+:where(html.cx) .plugin-card { padding: var(--space-3); gap: 6px; border-radius: var(--radius); }
+:where(html.cx) .plugin-icon { width: 32px; height: 32px; }
+:where(html.cx) .plugin-section { margin: var(--space-3) 0 var(--space-1); color: var(--foreground); }
+:where(html.cx) .theme-row { padding: 6px var(--space-3); border-radius: var(--radius); }
+:where(html.cx) .about-facts { gap: 2px var(--space-4); }
+:where(html.cx) .hub-name { margin: var(--space-1) 0 var(--space-3); }
+:where(html.cx) .hub-name label { color: var(--foreground); }
+:where(html.cx) .hub-name input { min-height: 30px; }
+
+/* ---- schedule ---- */
+:where(html.cx) .job { gap: var(--space-3); padding-block: var(--space-2); }
+:where(html.cx) .job .btn.remove { color: var(--foreground); }
+:where(html.cx) .sched-overview { margin-bottom: var(--space-3); }
+:where(html.cx) .sched-sum { color: var(--foreground); }
+
+/* ---- board ---- */
+:where(html.cx) .board { gap: var(--space-3); grid-auto-columns: minmax(220px, 1fr); }
+:where(html.cx) .board-card { padding: 6px var(--space-3); }
+:where(html.cx) .board-detail { border-left: 0; padding: 6px 0; }
+
+/* ---- tablet ---- */
+@media (max-width: 1100px) and (min-width: 761px) {
+  :where(html.cx) .app:not([style*="--left-w"]) { --left-w: 236px; }
+  :where(html.cx) .head, :where(html.cx) .feed, :where(html.cx) .dock { padding-inline: var(--space-3); }
+}
+/* narrow window: "Stop" keeps its icon and its accessible name; the word gives its room to the session name */
+@media (max-width: 1100px) {
+  :where(html.cx) .head > .btn:has(> .icon):not(.side-toggle) { width: 36px; padding: 0; justify-content: center; font-size: 0; }
+  :where(html.cx) .head > .btn:has(> .icon):not(.side-toggle) .icon { width: 18px; height: 18px; }
+}
+
+/* ---- phone: one header row, full-width lists ---- */
+@media (max-width: 760px) {
+  :where(html.cx) .head { padding: 4px 6px; gap: 4px; min-height: 44px; }
+  :where(html.cx) .feed, :where(html.cx) .dock { padding-left: var(--space-3); padding-right: var(--space-3); }
+  :where(html.cx) .head h2 { flex: 1 1 0; min-width: 48px; }
+  :where(html.cx) .head > .chips { display: none; }
+  /* the way to the session list: a menu icon with the same accessible name, no text taking header room */
+  :where(html.cx) .head .btn.back { width: 40px; min-height: 40px; padding: 0; justify-content: center; font-size: 0;
+    border-color: transparent; background: transparent; }
+  :where(html.cx) .head .btn.back::before { content: ""; width: 22px; height: 22px; background: currentColor;
+    -webkit-mask: var(--cx-menu) center / contain no-repeat; mask: var(--cx-menu) center / contain no-repeat; }
+  :where(html.cx) .head .btn, :where(html.cx) .head .seg button { min-height: 36px; }
+  :where(html.cx) .head > .btn:has(> .icon):not(.side-toggle) { width: 40px; }
+  :where(html.cx) .head .seg button { padding: 0 7px; }
+  :where(html.cx) .head .menu-btn { padding-inline: 6px; }
+  :where(html.cx) .btn.round { width: 40px; height: 40px; min-height: 40px; }
+  :where(html.cx) .btn.round.send { width: 40px; height: 40px; }
+  :where(html.cx) .brand { min-height: 48px; }
+  :where(html.cx) .srow { padding-block: 7px; }   /* touch rows stay easy to hit */
+  :where(html.cx) .row.mine > .b { max-width: 90%; }
+}
+/* phone: the state in the header is a dot in the same colours as the list (the word stays for screen readers) */
+@media (max-width: 520px) {
+  :where(html.cx) .head > .pill { flex: none; width: 10px; height: 10px; padding: 0; font-size: 0; background: var(--st-rest); }
+  :where(html.cx) .head > .pill[data-s="busy"], :where(html.cx) .head > .pill[data-s="starting"] { background: var(--st-work); }
+  :where(html.cx) .head > .pill[data-s="idle"] { background: var(--st-free); }
+  :where(html.cx) .head > .pill[data-s="dialog"], :where(html.cx) .head > .pill[data-s="failed"] { background: var(--st-wait); }
+}
